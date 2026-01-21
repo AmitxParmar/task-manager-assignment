@@ -90,9 +90,17 @@ class Environment implements IEnvironment {
     const envKey = Object.keys(Environments).find(
       (key) => Environments[key] === this.env
     ) as keyof typeof Environments;
-    const envPath = this.resolveEnvPath(envKey);
 
-    configDotenv({ path: envPath });
+    // Try to load .env file if it exists, but don't require it (for containers)
+    try {
+      const envPath = this.resolveEnvPath(envKey);
+      configDotenv({ path: envPath });
+    } catch (error) {
+      // .env file not found - this is OK in containerized environments
+      // where env vars are passed directly via docker-compose or k8s
+      console.log('No .env file found, using environment variables from container/system');
+    }
+
     this.validateEnvValues();
   }
 
