@@ -1,15 +1,17 @@
-import { Link, useLocation, useNavigate } from "@tanstack/react-router"
+
 import { ArrowLeft, User, Bell, Shield, Key } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
 
 interface SettingsSidebarProps {
     isMobile?: boolean
 }
 
 export function SettingsSidebar({ isMobile }: SettingsSidebarProps) {
-    const navigate = useNavigate()
-    const { pathname } = useLocation()
+    const router = useRouter()
+    const pathname = usePathname()
 
     const navItems = [
         { icon: User, label: "Profile", href: "/dashboard/profile" }, // base profile path
@@ -23,7 +25,7 @@ export function SettingsSidebar({ isMobile }: SettingsSidebarProps) {
             <div className={cn("px-2", isMobile && "hidden")}>
                 <Button
                     variant="ghost"
-                    onClick={() => navigate({ to: "/dashboard" })}
+                    onClick={() => router.push("/dashboard")}
                     className="w-full justify-start gap-2 hover:bg-background/50 rounded-full"
                 >
                     <ArrowLeft className="h-5 w-5" />
@@ -37,7 +39,7 @@ export function SettingsSidebar({ isMobile }: SettingsSidebarProps) {
                     return (
                         <Link
                             key={index}
-                            to={item.href}
+                            href={item.href}
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-full transition-all duration-200",
                                 isActive
@@ -56,7 +58,7 @@ export function SettingsSidebar({ isMobile }: SettingsSidebarProps) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => navigate({ to: "/dashboard" })}
+                    onClick={() => router.push("/dashboard")}
                     className="rounded-full"
                 >
                     <ArrowLeft className="h-5 w-5" />

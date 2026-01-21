@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -112,7 +114,7 @@ export function CreateTaskDialog({ children }: CreateTaskDialogProps) {
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Create Task</DialogTitle>
                     <DialogDescription>

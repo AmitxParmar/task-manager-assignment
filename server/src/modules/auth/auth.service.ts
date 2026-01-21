@@ -23,7 +23,7 @@ export interface AuthResult {
 }
 
 export default class AuthService {
-  @LogMessage<[RegisterInput]>({ message: 'User registration' })
+
   public async register(
     data: RegisterInput,
     userAgent?: string,
@@ -65,7 +65,7 @@ export default class AuthService {
     return { user, tokens };
   }
 
-  @LogMessage<[LoginInput]>({ message: 'User login' })
+
   public async login(
     data: LoginInput,
     userAgent?: string,

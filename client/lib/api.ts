@@ -81,6 +81,10 @@ api.interceptors.response.use(
     // ========================================================================
     // CASE 1: Refresh token errors - Don't attempt refresh, just logout
     // ========================================================================
+    // Define public pages that shouldn't redirect on auth errors
+    const isPublicPage = typeof window !== "undefined" &&
+      (window.location.pathname === "/" || window.location.pathname === "/register");
+
     if (
       response?.status === 401 &&
       (errorCode === "REFRESH_TOKEN_MISSING" ||
@@ -90,14 +94,14 @@ api.interceptors.response.use(
         errorCode === "USER_NOT_FOUND")
     ) {
       // These errors mean the session is completely invalid
-      // Clear everything and redirect to login
+      // Clear everything and redirect to login (only if not already on a public page)
       queryClient?.clear();
-      if (typeof window !== "undefined" && window.location.pathname !== "/") {
-        // Only redirect if not already on login page to prevent infinite loop
+      if (typeof window !== "undefined" && !isPublicPage) {
         window.location.href = "/";
       }
       return Promise.reject(error);
     }
+
 
     // ========================================================================
     // CASE 2: Access token errors - Attempt to refresh
@@ -114,7 +118,7 @@ api.interceptors.response.use(
         isRefreshing = false;
         refreshSubscribers = [];
         queryClient?.clear();
-        if (typeof window !== "undefined" && window.location.pathname !== "/") {
+        if (typeof window !== "undefined" && !isPublicPage) {
           window.location.href = "/";
         }
         return Promise.reject(error);
@@ -123,7 +127,7 @@ api.interceptors.response.use(
       // Prevent infinite retry loops
       if (config?._retry) {
         queryClient?.clear();
-        if (typeof window !== "undefined" && window.location.pathname !== "/") {
+        if (typeof window !== "undefined" && !isPublicPage) {
           window.location.href = "/";
         }
         return Promise.reject(error);
@@ -160,7 +164,7 @@ api.interceptors.response.use(
         refreshSubscribers = [];
         queryClient?.clear();
 
-        if (typeof window !== "undefined" && window.location.pathname !== "/") {
+        if (typeof window !== "undefined" && !isPublicPage) {
           window.location.href = "/";
         }
         return Promise.reject(refreshError);

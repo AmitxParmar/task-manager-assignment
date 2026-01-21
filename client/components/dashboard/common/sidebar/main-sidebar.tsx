@@ -1,4 +1,3 @@
-import { Link, useLocation } from "@tanstack/react-router"
 import {
     LayoutDashboard,
     CheckSquare,
@@ -8,14 +7,16 @@ import {
     FolderOpen
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { PostTaskButton } from "../PostTaskButton"
+import { PostTaskButton } from "../post-task-button"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 interface MainSidebarProps {
     isMobile?: boolean
 }
 
 export function MainSidebar({ isMobile }: MainSidebarProps) {
-    const { pathname } = useLocation()
+    const pathname = usePathname()
 
     const navItems = [
         { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
@@ -44,8 +45,7 @@ export function MainSidebar({ isMobile }: MainSidebarProps) {
                     return (
                         <Link
                             key={index}
-                            to={item.href}
-                            disabled={item.disabled}
+                            href={item.href}
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-full transition-all duration-200",
                                 isActive

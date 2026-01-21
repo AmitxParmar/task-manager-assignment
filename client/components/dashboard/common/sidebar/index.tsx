@@ -1,13 +1,13 @@
+'use client'
 import { Suspense, lazy } from "react"
-import { useLocation } from "@tanstack/react-router"
 import { Card, CardContent } from "@/components/ui/card"
-import { MainSidebar } from "./MainSidebar"
+import { MainSidebar } from "./main-sidebar"
 import { cn } from "@/lib/utils"
-// Import custom useMediaQuery if configured with alias, otherwise relative
 import { useMediaQuery } from "@/hooks/useMediaQuery"
+import { usePathname } from "next/navigation"
 
 const SettingsSidebar = lazy(() =>
-    import("./SettingsSidebar").then(module => ({ default: module.SettingsSidebar }))
+    import("./settings-sidebar").then(module => ({ default: module.SettingsSidebar }))
 )
 
 interface WrapperProps {
@@ -15,7 +15,7 @@ interface WrapperProps {
 }
 
 export function DashboardSidebarWrapper({ className }: WrapperProps) {
-    const { pathname } = useLocation()
+    const pathname = usePathname()
     const isMobile = useMediaQuery("(max-width: 768px)")
 
     // Check if we are in a profile/settings context

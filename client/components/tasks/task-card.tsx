@@ -1,3 +1,4 @@
+'use client'
 import { useState, useMemo, memo } from "react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Clock, Pencil } from "lucide-react"
