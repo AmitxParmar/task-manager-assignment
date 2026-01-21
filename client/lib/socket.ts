@@ -25,7 +25,7 @@ class SocketClient {
             return this.socket
         }
 
-        const SOCKET_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:8000'
+        const SOCKET_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api', '') || `http://localhost:8000/api/v1/${process.env.NODE_ENV}`
 
         this.socket = io(SOCKET_URL, {
             withCredentials: true, // Send cookies for JWT auth
