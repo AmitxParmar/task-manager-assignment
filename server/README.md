@@ -33,18 +33,18 @@ A production-ready RESTful API for a collaborative task management application b
 
 ## 🛠 Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Runtime** | Node.js (v16+) | JavaScript runtime |
-| **Framework** | Express.js | Web framework |
-| **Language** | TypeScript | Type safety |
-| **Database** | MongoDB | NoSQL database |
-| **ORM** | Prisma | Database toolkit |
-| **Authentication** | JWT + bcrypt | Secure auth |
-| **Real-Time** | Socket.io | WebSocket communication |
-| **Validation** | class-validator | DTO validation |
-| **Documentation** | Swagger/OpenAPI | API docs |
-| **Package Manager** | pnpm | Fast, disk-efficient |
+| Layer               | Technology      | Purpose                 |
+| ------------------- | --------------- | ----------------------- |
+| **Runtime**         | Node.js (v16+)  | JavaScript runtime      |
+| **Framework**       | Express.js      | Web framework           |
+| **Language**        | TypeScript      | Type safety             |
+| **Database**        | PostgreSQL      | SQL database            |
+| **ORM**             | Prisma          | Database toolkit        |
+| **Authentication**  | JWT + bcrypt    | Secure auth             |
+| **Real-Time**       | Socket.io       | WebSocket communication |
+| **Validation**      | class-validator | DTO validation          |
+| **Documentation**   | Swagger/OpenAPI | API docs                |
+| **Package Manager** | pnpm            | Fast, disk-efficient    |
 
 ---
 
@@ -97,8 +97,10 @@ NODE_ENV=development
 PORT=8000
 APP_BASE_URL=http://localhost
 
-# Database
-DATABASE_URL=mongodb://localhost:27017/task-manager
+# Database (PostgreSQL)
+DATABASE_URL=postgresql://username:password@localhost:5432/task_manager
+# Or use a cloud provider like Neon:
+# DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-1.aws.neon.tech/neondb?sslmode=require
 
 # Frontend URL (for CORS)
 CLIENT_URL=http://localhost:3000
@@ -166,24 +168,24 @@ http://localhost:8000/v1/swagger
 
 #### Authentication Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/auth/register` | Register new user | No |
-| POST | `/auth/login` | Login user | No |
-| POST | `/auth/logout` | Logout (clear session) | No |
-| POST | `/auth/logout-all` | Logout all devices | Yes |
-| POST | `/auth/refresh` | Refresh access token | Cookie |
-| GET | `/auth/me` | Get current user | Yes |
+| Method | Endpoint           | Description            | Auth Required |
+| ------ | ------------------ | ---------------------- | ------------- |
+| POST   | `/auth/register`   | Register new user      | No            |
+| POST   | `/auth/login`      | Login user             | No            |
+| POST   | `/auth/logout`     | Logout (clear session) | No            |
+| POST   | `/auth/logout-all` | Logout all devices     | Yes           |
+| POST   | `/auth/refresh`    | Refresh access token   | Cookie        |
+| GET    | `/auth/me`         | Get current user       | Yes           |
 
 #### Task Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/tasks` | Create task | Yes |
-| GET | `/tasks` | Get all tasks (with filters) | Yes |
-| GET | `/tasks/:id` | Get task by ID | Yes |
-| PUT | `/tasks/:id` | Update task | Yes |
-| DELETE | `/tasks/:id` | Delete task | Yes |
+| Method | Endpoint     | Description                  | Auth Required |
+| ------ | ------------ | ---------------------------- | ------------- |
+| POST   | `/tasks`     | Create task                  | Yes           |
+| GET    | `/tasks`     | Get all tasks (with filters) | Yes           |
+| GET    | `/tasks/:id` | Get task by ID               | Yes           |
+| PUT    | `/tasks/:id` | Update task                  | Yes           |
+| DELETE | `/tasks/:id` | Delete task                  | Yes           |
 
 #### Task Query Parameters
 
@@ -366,19 +368,19 @@ const socket = io('http://localhost:8000', {
 
 #### Server → Client Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `task:created` | `{ taskId, task }` | Broadcast when task created |
-| `task:updated` | `{ taskId, task }` | Broadcast when task updated |
-| `task:deleted` | `{ taskId }` | Broadcast when task deleted |
-| `task:assigned` | `{ taskId, task, newAssigneeId }` | Sent to assignee |
-| `notification` | `{ id, type, message, taskId }` | General notifications |
+| Event           | Payload                           | Description                 |
+| --------------- | --------------------------------- | --------------------------- |
+| `task:created`  | `{ taskId, task }`                | Broadcast when task created |
+| `task:updated`  | `{ taskId, task }`                | Broadcast when task updated |
+| `task:deleted`  | `{ taskId }`                      | Broadcast when task deleted |
+| `task:assigned` | `{ taskId, task, newAssigneeId }` | Sent to assignee            |
+| `notification`  | `{ id, type, message, taskId }`   | General notifications       |
 
 #### Client → Server Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `room:join` | `roomName` | Join a specific room |
+| Event        | Payload    | Description           |
+| ------------ | ---------- | --------------------- |
+| `room:join`  | `roomName` | Join a specific room  |
 | `room:leave` | `roomName` | Leave a specific room |
 
 ### Example Usage

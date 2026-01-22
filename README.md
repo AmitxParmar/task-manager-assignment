@@ -32,7 +32,7 @@ We prioritized performance and user experience through modern architectural patt
 ### [Server Application](./server/README.md)
 *   **Runtime**: Node.js + Express
 *   **Language**: TypeScript
-*   **Database**: MongoDB
+*   **Database**: PostgreSQL
 *   **ORM**: Prisma
 *   **Real-time**: Socket.io
 *   **Auth**: JWT (Access + Refresh Tokens)
