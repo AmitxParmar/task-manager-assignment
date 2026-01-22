@@ -42,8 +42,14 @@ export function LoginForm() {
     if (checkingAuth) {
         return (
             <Card className="w-full max-w-md">
-                <CardContent className="flex items-center justify-center py-12">
+                <CardContent className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    <div className="space-y-1">
+                        <p className="text-sm font-medium">Checking authentication...</p>
+                        <p className="text-xs text-muted-foreground">
+                            Note: The initial request may take 1-2 minutes if the server is booting up.
+                        </p>
+                    </div>
                 </CardContent>
             </Card>
         )
